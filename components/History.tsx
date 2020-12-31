@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { normalizeHistory } from "../lib/utils";
 import Change from "./Change";
+import moment from "moment";
 
 const getHistory = async (id: string) => {
   return axios
@@ -41,14 +42,20 @@ const History = ({ id, currency }) => {
           <CartesianGrid strokeDasharray="3 3" />
 
           <XAxis
-            minTickGap={20}
-            tickSize={15}
-            tickLine={false}
+            tickFormatter={(value) => moment(value).format("YYYY-MM-DD")}
             allowDuplicatedCategory={false}
             dataKey="timestamp"
+            tickLine={false}
+            minTickGap={20}
+            tickSize={15}
           />
 
-          <Tooltip formatter={(value) => `${(value as number).toFixed(2)} ${currency.symbol}`} />
+          <Tooltip
+            labelFormatter={(value) => moment(value).format("YYYY-MM-DD")}
+            formatter={(value) =>
+              `${Number(value).toFixed(2)} ${currency.symbol}`
+            }
+          />
 
           <Line
             type="monotone"

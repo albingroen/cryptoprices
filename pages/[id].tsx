@@ -66,10 +66,19 @@ export default function CoinView() {
             )}
           </div>
 
-          <h2 className="text-xl mr-3">
-            <span className="opacity-25">Rank:</span>{" "}
-            <span className="opacity-50">{data.coin.rank}</span>
-          </h2>
+          <div className="flex items-center space-x-2">
+            <h2 className="text-xl mr-3">
+              <span className="opacity-25">Listed in:</span>{" "}
+              <span className="opacity-50">
+                {moment(data.coin.listedAt * 1000).format("YYYY-MM-DD")}
+              </span>
+            </h2>
+
+            <h2 className="text-xl mr-3">
+              <span className="opacity-25">Rank:</span>{" "}
+              <span className="opacity-50">{data.coin.rank}</span>
+            </h2>
+          </div>
         </div>
       </div>
 
@@ -83,7 +92,6 @@ export default function CoinView() {
               </Change>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -91,7 +99,7 @@ export default function CoinView() {
         <div className="card flex-grow">
           <div className="space-y-2">
             <p className="opacity-50">Current price</p>
-            <h1 className="text-3xl font-semibold text-blue-500">
+            <h1 className="text-3xl font-medium text-blue-500 dark:text-blue-400">
               {data.base.sign}
               {Number(data.coin.price).toFixed(2)}
             </h1>
@@ -102,13 +110,15 @@ export default function CoinView() {
           <div className="space-y-2">
             <p className="opacity-50">
               All time high (
-              {moment(data.coin.allTimeHigh.timestamp * 1000).format(
-                "YYYY-MM-DD"
-              )}
+              {moment(
+                new Date(data.coin.allTimeHigh.timestamp).getTime() > 0
+                  ? data.coin.allTimeHigh.timestamp
+                  : data.coin.allTimeHigh.timestamp * 1000
+              ).format("YYYY-MM-DD")}
               )
             </p>
 
-            <h1 className="text-3xl font-semibold text-green-500">
+            <h1 className="text-3xl font-medium text-green-500 dark:text-green-400">
               {data.base.sign}
               {Number(data.coin.allTimeHigh.price).toFixed(2)}
             </h1>
@@ -118,7 +128,8 @@ export default function CoinView() {
         <div className="card flex-grow">
           <div className="space-y-2">
             <p className="opacity-50">Current marketcap</p>
-            <h1 className="text-3xl text-gray-500 font-semibold">
+            <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
+              {data.base.sign}
               {data.coin.marketCap}
             </h1>
           </div>
@@ -127,7 +138,7 @@ export default function CoinView() {
         <div className="card flex-grow">
           <div className="space-y-2">
             <p className="opacity-50">Total supply</p>
-            <h1 className="text-3xl text-gray-500 font-semibold">
+            <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
               {data.coin.totalSupply}
             </h1>
           </div>
@@ -136,7 +147,7 @@ export default function CoinView() {
         <div className="card flex-grow">
           <div className="space-y-2">
             <p className="opacity-50">Volume</p>
-            <h1 className="text-3xl text-gray-500 font-semibold">
+            <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
               {data.coin.volume}
             </h1>
           </div>

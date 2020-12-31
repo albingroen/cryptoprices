@@ -1,10 +1,8 @@
-import moment from "moment";
-
 export const normalizeHistory = (
   history: { timestamp: string; price: number }[]
 ) => {
   const cleanArr = history.map((i) => ({
-    timestamp: moment(i.timestamp).format('YYYY-MM-DD'),
+    ...i,
     price: Number(i.price),
   }));
 

@@ -31,9 +31,9 @@ export default function Home() {
 
                 <div className="flex items-center space-x-4 flex-none">
                   <div className="flex flex-col items-end text-right">
-                    <h3 className="font-semibold">
+                    <h3 className="font-medium text-blue-500">
                       {data.base.sign}
-                      {Math.round(coin.price)}
+                      {Number(coin.price).toFixed(2)}
                     </h3>
 
                     <p className="text-sm opacity-30">
