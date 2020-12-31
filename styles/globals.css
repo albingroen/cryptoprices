@@ -1,16 +1,41 @@
-html,
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  @apply bg-gray-100 dark:bg-gray-800 dark:text-white;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.page {
+  @apply p-8 max-w-screen-xl mx-auto;
 }
 
-* {
-  box-sizing: border-box;
+.card {
+  @apply bg-white dark:bg-gray-700 p-3 rounded-lg shadow-sm;
+}
+
+.grid-coin-icon-wrapper {
+  @apply bg-gray-100 dark:bg-gray-800 h-10 w-10 rounded-full flex items-center justify-center flex-none dark:bg-opacity-25;
+}
+
+.coins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  @apply gap-6;
+}
+
+.input {
+  @apply bg-white dark:bg-gray-700 p-2 px-4 rounded-md text-base shadow-sm focus:shadow-lg;
+}
+
+.button {
+  @apply rounded-md p-2 shadow-sm transition bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 text-white px-4;
+}
+
+.recharts-cartesian-axis-line {
+  @apply opacity-25;
+}
+
+.recharts-cartesian-axis-ticks {
+  @apply opacity-50 dark:opacity-100;
 }
