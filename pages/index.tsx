@@ -31,12 +31,12 @@ export default function Home() {
 
                 <div className="flex items-center space-x-4 flex-none">
                   <div className="flex flex-col items-end text-right">
-                    <h3 className="font-medium text-blue-500">
+                    <h3 className="font-medium text-blue-500 dark:text-blue-300">
                       {data.base.sign}
                       {Number(coin.price).toFixed(2)}
                     </h3>
 
-                    <p className="text-sm opacity-30">
+                    <p className="text-sm opacity-30 dark:opacity-40">
                       {data.base.sign}
                       {coin.price} {coin.symbol}
                     </p>

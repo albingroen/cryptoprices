@@ -95,7 +95,7 @@ export default function CoinView() {
         </div>
       </div>
 
-      <div className="flex items-center space-x-6">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <div className="card flex-grow">
           <div className="space-y-2">
             <p className="opacity-50">Current price</p>
@@ -130,7 +130,7 @@ export default function CoinView() {
             <p className="opacity-50">Current marketcap</p>
             <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
               {data.base.sign}
-              {data.coin.marketCap}
+              {Number(data.coin.marketCap).toFixed(2)}
             </h1>
           </div>
         </div>
@@ -139,7 +139,16 @@ export default function CoinView() {
           <div className="space-y-2">
             <p className="opacity-50">Total supply</p>
             <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
-              {data.coin.totalSupply}
+              {Number(data.coin.totalSupply).toFixed(2)}
+            </h1>
+          </div>
+        </div>
+
+        <div className="card flex-grow">
+          <div className="space-y-2">
+            <p className="opacity-50">Circulating supply</p>
+            <h1 className="text-3xl text-gray-500 dark:text-gray-400 font-medium">
+              {Number(data.coin.circulatingSupply).toFixed(2)}
             </h1>
           </div>
         </div>

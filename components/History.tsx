@@ -8,6 +8,9 @@ import {
   Tooltip,
   XAxis,
   CartesianGrid,
+  AreaChart,
+  Area,
+  YAxis,
 } from "recharts";
 import { normalizeHistory } from "../lib/utils";
 import Change from "./Change";
@@ -26,11 +29,22 @@ const History = ({ id, currency }) => {
   const [interval, setInterval] = useState<string>("1y");
 
   // Server state
-  const { data, error } = useSWR([`coins/${id}/history`, interval], getHistory);
+  const { data, error, revalidate } = useSWR(
+    [`coins/${id}/history`, interval],
+    getHistory
+  );
 
-  if (!data || error) return null
+  if (error)
+    return (
+      <div className="flex items-center justify-between">
+        <p className="text-red-500">Could not fetch history chart...</p>;
+        <p onClick={revalidate} className="text-blue-500 cursor-pointer">
+          Retry
+        </p>
+      </div>
+    );
 
-  const normalizedArray = normalizeHistory(data.history);
+  const normalizedArray = data?.history ? normalizeHistory(data.history) : [];
 
   const onChangeInterval = (e: ChangeEvent<HTMLInputElement>) => {
     setInterval(e.currentTarget.value);
@@ -39,10 +53,10 @@ const History = ({ id, currency }) => {
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex space-x-2 items-center justify-between">
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-7 select-none">
           <p className="opacity-50">Currency trend</p>
 
-          <div className="flex items-center space-x-4 select-none">
+          <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <input
                 checked={interval === "24h"}
@@ -53,7 +67,21 @@ const History = ({ id, currency }) => {
                 type="radio"
               />
               <label htmlFor="day" className="opacity-50 text-sm">
-                1 day
+                Day
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                checked={interval === "7d"}
+                onChange={onChangeInterval}
+                name="interval"
+                id="week"
+                value="7d"
+                type="radio"
+              />
+              <label htmlFor="week" className="opacity-50 text-sm">
+                Week
               </label>
             </div>
 
@@ -67,7 +95,7 @@ const History = ({ id, currency }) => {
                 type="radio"
               />
               <label htmlFor="month" className="opacity-50 text-sm">
-                1 month
+                Month
               </label>
             </div>
 
@@ -81,7 +109,7 @@ const History = ({ id, currency }) => {
                 type="radio"
               />
               <label htmlFor="year" className="opacity-50 text-sm">
-                1 year
+                Year
               </label>
             </div>
 
@@ -95,46 +123,61 @@ const History = ({ id, currency }) => {
                 type="radio"
               />
               <label htmlFor="5-years" className="opacity-50 text-sm">
-                5 years
+                All
               </label>
             </div>
           </div>
         </div>
 
+        {data?.change && (
           <Change change={data.change}>
             {(value) => <h2 className="text-xl">{value}</h2>}
           </Change>
+        )}
       </div>
 
       <ResponsiveContainer key={interval} height={400} width="100%">
-          <LineChart data={normalizedArray}>
-            <CartesianGrid strokeDasharray="3 3" />
+        <AreaChart data={normalizedArray}>
+          <CartesianGrid strokeDasharray="3 3" />
 
-            <XAxis
-              tickFormatter={(value) => moment(value).format("YYYY-MM-DD")}
-              allowDuplicatedCategory={false}
-              dataKey="timestamp"
-              tickLine={false}
-              minTickGap={20}
-              tickSize={15}
-            />
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
 
-            <Tooltip
-              labelFormatter={(value) => moment(value).format("YYYY-MM-DD")}
-              formatter={(value) =>
-                `${Number(value).toFixed(2)} ${currency.symbol}`
-              }
-            />
+          <XAxis
+            tickFormatter={(value) => moment(value).format("YYYY-MM-DD")}
+            allowDuplicatedCategory={false}
+            dataKey="timestamp"
+            tickLine={false}
+            minTickGap={20}
+            tickSize={15}
+          />
 
-            <Line
-              type="monotone"
-              strokeOpacity={0.75}
-              strokeWidth={2}
-              dot={false}
-              dataKey="price"
-              stroke="#8884d8"
-            />
-          </LineChart>
+          <Tooltip
+            labelFormatter={(value) => moment(value).format("YYYY-MM-DD")}
+            formatter={(value) =>
+              `${Number(value).toFixed(2)} ${currency.symbol}`
+            }
+          />
+
+          <Area
+            type="monotone"
+            strokeOpacity={0.75}
+            strokeWidth={2}
+            dot={false}
+            dataKey="price"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#colorPv)"
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
