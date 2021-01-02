@@ -1,4 +1,4 @@
-# Cryptoprices v2
+# Cryptoprices
 
 > Monitor, explore and track all available cryptocurrencies 
 
