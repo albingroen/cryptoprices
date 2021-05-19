@@ -1,10 +1,10 @@
 import Head from "next/head";
 
 interface IMetaTagsProps {
-  description: string
-  title: string
-  image: string
-  url: string
+  description: string;
+  title: string;
+  image: string;
+  url: string;
 }
 
 export default function MetaTags({
@@ -29,9 +29,7 @@ export default function MetaTags({
       <meta property="twitter:url" content={url} />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={image} />
-
-      <script async src="https://cdn.splitbee.io/sb.js"></script>
+      <meta property="twitter:image" content={image}></meta>
     </Head>
   );
 }
