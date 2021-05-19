@@ -6,6 +6,7 @@ import moment from "moment";
 import History from "../components/History";
 import Change from "../components/Change";
 import MetaTags from "../components/MetaTags/MetaTags";
+import { Fragment } from "react";
 
 const getCoin = async (id: string) => {
   return axios
@@ -13,14 +14,16 @@ const getCoin = async (id: string) => {
     .then((res) => res.data.data);
 };
 
-export default function CoinView() {
+function CoinView(props) {
   const router = useRouter();
   const { id } = router.query;
 
   const isIdValid = id && typeof id === "string";
 
-  const { data, error } = useSWR(isIdValid ? `coins/${id}` : null, () =>
-    getCoin(id as string)
+  const { data, error } = useSWR(
+    isIdValid ? `coins/${id}` : null,
+    () => getCoin(id as string),
+    { initialData: props.coin }
   );
 
   if (!data?.coin || error) return null;
@@ -62,7 +65,7 @@ export default function CoinView() {
             <div className="flex items-center space-x-2.5">
               {uniqBy([...data.coin.socials, ...data.coin.links], "type").map(
                 ({ type, url }, i) => (
-                  <>
+                  <Fragment key={type}>
                     {i ? <span className="opacity-10">|</span> : null}
 
                     <a href={url} target="_blank" rel="noopener noreferer">
@@ -70,7 +73,7 @@ export default function CoinView() {
                         {capitalize(type)}
                       </p>
                     </a>
-                  </>
+                  </Fragment>
                 )
               )}
             </div>
@@ -179,3 +182,10 @@ export default function CoinView() {
     </>
   );
 }
+
+CoinView.getInitialProps = async ({ query }) => {
+  const coin = query.id && (await getCoin(query.id));
+  return { coin };
+};
+
+export default CoinView;
