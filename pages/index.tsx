@@ -12,10 +12,8 @@ const getCoins = async () => {
 };
 
 export default function Home() {
-  const { data, error } = useSWR("coins", getCoins);
+  const { data } = useSWR("coins", getCoins);
   const router = useRouter();
-
-  if (!data?.coins || error) return null;
 
   return (
     <>
@@ -28,7 +26,7 @@ export default function Home() {
 
       <div className="page space-y-8">
         <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
-          {data.coins.map((coin) => (
+          {data?.coins.map((coin) => (
             <Link href={`/${coin.id}`} key={coin.id}>
               <div className="card transition hover:shadow-lg cursor-pointer">
                 <div className="flex justify-between items-center">
