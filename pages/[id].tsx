@@ -62,7 +62,7 @@ function CoinView(props) {
 
         <div className="card">
           <div className="flex flex-col sm:flex-row justify-between space-y-4 items-start sm:items-center sm:space-y-0 sm:space-x-2">
-            <div className="flex items-center space-x-2.5 overflow-x-scroll w-full">
+            <div className="flex items-center space-x-2.5 overflow-x-auto w-full sm:w-auto">
               {uniqBy([...data.coin.socials, ...data.coin.links], "type").map(
                 ({ type, url }, i) => (
                   <Fragment key={type}>
