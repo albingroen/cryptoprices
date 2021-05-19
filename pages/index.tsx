@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <div className="page space-y-8">
       <MetaTags
-        image="https://res.cloudinary.com/albin-groen/image/upload/f_auto/v1609596975/cryptoprices-seo_t6gma8.png"
+        image="https://res.cloudinary.com/albin-groen/image/upload/v1621442165/cryptorprices-og-image_rprl20.png"
         description="Monitor, explore and track all available cryptocurrencies"
         url={`https://cryptoprices.vercel.app${router.asPath}`}
         title="Cryptoprices"
