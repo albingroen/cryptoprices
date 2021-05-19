@@ -53,7 +53,7 @@ function CoinView(props) {
               </h1>
             </div>
 
-            <h2 className="text-xl">
+            <h2 className="text-xl hidden sm:block">
               <span className="opacity-25">Slug:</span>{" "}
               <span className="opacity-50">{data.coin.slug}</span>
             </h2>
@@ -61,8 +61,8 @@ function CoinView(props) {
         </div>
 
         <div className="card">
-          <div className="flex items-center justify-between space-x-2">
-            <div className="flex items-center space-x-2.5">
+          <div className="flex flex-col sm:flex-row justify-between space-y-4 items-start sm:items-center sm:space-y-0 sm:space-x-2">
+            <div className="flex items-center space-x-2.5 overflow-x-scroll w-full">
               {uniqBy([...data.coin.socials, ...data.coin.links], "type").map(
                 ({ type, url }, i) => (
                   <Fragment key={type}>
@@ -175,7 +175,7 @@ function CoinView(props) {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card hidden sm:block">
           <History currency={data.base} id={data.coin.id} />
         </div>
       </div>
