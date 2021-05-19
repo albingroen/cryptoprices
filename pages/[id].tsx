@@ -30,7 +30,7 @@ export default function CoinView() {
       <MetaTags
         image="https://res.cloudinary.com/albin-groen/image/upload/v1621442165/cryptorprices-og-image_rprl20.png"
         description="Monitor, explore and track all available cryptocurrencies"
-        url={`https://cryptoprices.vercel.app${router.asPath}`}
+        url={`https://cryptoprices.albingroen.com${router.asPath}`}
         title={`Cryptoprices | ${data.coin.name}`}
       />
 
