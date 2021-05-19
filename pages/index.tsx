@@ -26,17 +26,19 @@ export default function Home() {
         title="Cryptoprices"
       />
 
-      <div className="coins-grid">
+      <div className="grid gap-4 grid-cols-1 xl:grid-cols-2">
         {data.coins.map((coin) => (
           <Link href={`/${coin.id}`} key={coin.id}>
-            <div className="card transition transform hover:scale-110 hover:shadow-lg cursor-pointer">
+            <div className="card transition hover:shadow-lg cursor-pointer">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3">
                   <div className="grid-coin-icon-wrapper">
-                    <img className="w-5" src={coin.iconUrl} alt="" />
+                    <img className="w-3 sm:w-5" src={coin.iconUrl} alt="" />
                   </div>
 
-                  <h3>{coin.name}</h3>
+                  <h3 className="truncate overflow-ellipsis w-24 sm:w-auto">
+                    {coin.name}
+                  </h3>
                 </div>
 
                 <div className="flex items-center space-x-4 flex-none">
@@ -46,7 +48,7 @@ export default function Home() {
                       {Number(coin.price).toFixed(2)}
                     </h3>
 
-                    <p className="text-sm opacity-30 dark:opacity-40">
+                    <p className="text-sm opacity-30 dark:opacity-40 truncate overflow-ellipsis w-20 sm:w-auto">
                       {data.base.sign}
                       {coin.price} {coin.symbol}
                     </p>
@@ -55,11 +57,15 @@ export default function Home() {
                   <Change change={Math.round(coin.change)}>
                     {(value) => (
                       <div
-                        className={`h-11 w-11 bg-${
-                          Math.round(coin.change) < 0 ? "red" : "blue"
-                        }-100 text-sm font-medium rounded-lg flex items-center justify-center dark:bg-opacity-5`}
+                        className={`h-11 w-11 ${
+                          Math.round(coin.change) < 0
+                            ? "bg-red-100"
+                            : "bg-blue-100"
+                        } rounded-md flex items-center justify-center dark:bg-opacity-5`}
                       >
-                        {value}
+                        <span className="font-medium sm:font-normal text-xs sm:text-sm">
+                          {value}
+                        </span>
                       </div>
                     )}
                   </Change>
